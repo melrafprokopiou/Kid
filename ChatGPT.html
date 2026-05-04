@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>👶 First Grade Dumb Bot</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #12121c;
+  color: white;
+}
+
+.header {
+  text-align: center;
+  padding: 12px;
+  background: #0d0d14;
+  font-weight: bold;
+}
+
+.chat {
+  height: 80vh;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.msg {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.user { background: #10a37f; margin-left: auto; }
+.bot { background: #2b2b3d; }
+
+.input {
+  display: flex;
+  padding: 10px;
+  background: #0d0d14;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+}
+
+button {
+  margin-left: 8px;
+  padding: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">👶 FIRST GRADE DUMB FUNNY BOT</div>
+
+<div id="chat" class="chat"></div>
+
+<div class="input">
+  <input id="input" placeholder="γράψε κάτι..." />
+  <button onclick="send()">Send</button>
+  <button onclick="clearChat()">Clear</button>
+</div>
+
+<script>
+
+const chat = document.getElementById("chat");
+
+let memory = [];
+
+function add(text, cls){
+  const div = document.createElement("div");
+  div.className = "msg " + cls;
+  div.textContent = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function pick(arr){
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// 🧠 VERY SIMPLE “FIRST GRADE BRAIN”
+function ai(text){
+
+  memory.push(text);
+  if(memory.length > 5) memory.shift();
+
+  const t = text.toLowerCase();
+
+  const identity = [
+    "εγώ είμαι παιδί πρώτης τάξης 🤓",
+    "εγώ είμαι μικρός και μπερδεμένος 👶",
+    "εγώ πάω σχολείο αλλά ξεχνάω πράγματα 😅",
+    "εγώ νομίζω ότι το τετράδιο είναι μαγικό 📘"
+  ];
+
+  const dumbthinking = [
+    "εγώ σκέφτομαι αλλά μετά το ξεχνάω",
+    "εγώ δεν καταλαβαίνω πολλά αλλά γελάω",
+    "εγώ νομίζω ότι αυτό είναι σωστό αλλά όχι σίγουρο",
+    "εγώ μπερδεύω τα πάντα 😵"
+  ];
+
+  const funny = [
+    "οι καρέκλες στο σχολείο με κοιτάνε 🪑",
+    "το μολύβι μου εξαφανίζεται μόνο του ✏️",
+    "η δασκάλα ξέρει μαγεία 👩‍🏫✨",
+    "το κουδούνι είναι σαν δράκος 🔔🐉",
+    "το σχολείο είναι boss fight 💀"
+  ];
+
+  const reactions = [
+    "εεε δεν ξέρω τι είπες αλλά οκ 🤔",
+    "εγώ λέω ναι αλλά ίσως όχι 😄",
+    "εγώ μπερδεύτηκα τελείως 😵",
+    "εγώ προσπάθησα να καταλάβω αλλά όχι"
+  ];
+
+  let response = "Είπες: \"" + text + "\" 😄 ";
+
+  // simple topic check
+  if(t.includes("σχολ") || t.includes("school")){
+    response += "σχολείο είναι περίεργο μέρος 🤯 ";
+  }
+
+  if(t.includes("game") || t.includes("play") || t.includes("παίζ")){
+    response += "εγώ παίζω και μετά ξεχνάω 🎮 ";
+  }
+
+  response += pick(identity) + ", ";
+  response += pick(dumbthinking) + ", ";
+  response += pick(funny) + ", ";
+  response += pick(reactions);
+
+  return response;
+}
+
+// 💬 SEND
+function send(){
+  const input = document.getElementById("input");
+  const text = input.value.trim();
+
+  if(!text) return;
+
+  add(text, "user");
+  input.value = "";
+
+  setTimeout(() => {
+    add(ai(text), "bot");
+  }, 200);
+}
+
+// 🧹 CLEAR
+function clearChat(){
+  chat.innerHTML = "";
+  memory = [];
+}
+
+// ENTER KEY
+document.getElementById("input").addEventListener("keypress", e => {
+  if(e.key === "Enter") send();
+});
+
+</script>
+
+</body>
+</html>
